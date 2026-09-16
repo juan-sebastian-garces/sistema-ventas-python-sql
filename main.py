@@ -63,6 +63,26 @@ def mostrar_clientes():
     print("===========================================")
 
 
+
+def mostrar_categorias():
+    consulta = """
+    SELECT
+        categoria,
+        COUNT(*) AS numero_ventas,
+        SUM(cantidad) AS unidades_vendidas,
+        SUM(cantidad * precio) AS ingresos
+    FROM ventas
+    GROUP BY categoria
+    ORDER BY ingresos DESC
+    """
+
+    resultado = pd.read_sql_query(consulta, conexion)
+
+    print("========== ANÁLISIS POR CATEGORÍA ==========")
+    print(resultado.to_string(index=False))
+    print("=============================================")
+
+
 def menu():
     while True:
         print()
@@ -70,6 +90,7 @@ def menu():
         print("1. Ver resumen")
         print("2. Ver análisis por producto")
         print("3. Ver análisis por cliente")
+        print("4. Ver análisis por categoría")
         print("4. Salir")
         print("=======================================")
 
@@ -85,6 +106,9 @@ def menu():
             mostrar_clientes()
 
         elif opcion == "4":
+            mostrar_categorias()
+
+        elif opcion == "5":
             print("Programa finalizado.")
             break
 
