@@ -56,3 +56,26 @@ Este proyecto forma parte de mi proceso de formación en programación y represe
 ## Autor
 
 Juan Sebastián Garcés
+
+    
+## Visualizaciones
+
+### Ingresos por producto
+
+![Ingresos por producto](ventas_por_producto.png)
+
+### Unidades vendidas por producto
+
+![Unidades vendidas por producto](unidades_vendidas_por_producto.png)
+
+### Ingresos por cliente
+
+![Ingresos por cliente](ingresos_por_cliente.png)
+
+### Evolución de ingresos por día
+
+![Evolución de ingresos por día](evolucion_ingresos_por_dia.png)
+
+### Distribución de unidades vendidas por producto
+
+![Distribución de unidades vendidas por producto](distribucion_unidades_por_producto.png)
