@@ -1,6 +1,7 @@
 
 import sqlite3
 import pandas as pd
+from datetime import datetime
 
 conexion = sqlite3.connect("ventas.db")
 
@@ -148,6 +149,64 @@ def mostrar_mayor_venta():
     print("============================================")
 
 
+
+def registrar_venta():
+    print()
+    print("========== REGISTRAR NUEVA VENTA ==========")
+
+    while True:
+        fecha = input("Fecha (DD/MM/AAAA): ")
+        try:
+            datetime.strptime(fecha, "%d/%m/%Y")
+            break
+        except ValueError:
+            print("Fecha no válida. Usa el formato DD/MM/AAAA.")
+    cliente = input("Cliente: ")
+    producto = input("Producto: ")
+    categoria = input("Categoría: ")
+
+    while True:
+        try:
+            cantidad = int(input("Cantidad: "))
+            if cantidad > 0:
+                break
+            print("La cantidad debe ser mayor que 0.")
+        except ValueError:
+            print("Por favor, introduce un número entero.")
+
+    while True:
+        try:
+            precio = float(input("Precio unitario: "))
+            if precio > 0:
+                break
+            print("El precio debe ser mayor que 0.")
+        except ValueError:
+            print("Por favor, introduce un número válido.")
+
+    consulta = """
+    INSERT INTO ventas
+    (fecha, cliente, producto, categoria, cantidad, precio)
+    VALUES (?, ?, ?, ?, ?, ?)
+    """
+
+    cursor = conexion.cursor()
+
+    cursor.execute(
+        consulta,
+        (fecha, cliente, producto, categoria, cantidad, precio)
+    )
+
+    conexion.commit()
+
+    total = cantidad * precio
+
+    print()
+    print("Venta registrada correctamente.")
+    print(f"Total de la venta: ${total:.2f}")
+    print("===========================================")
+
+
+
 def menu():
     while True:
         print()
@@ -159,7 +218,8 @@ def menu():
         print("5. Ver producto con mayor ingreso")
         print("6. Ver cliente con mayor ingreso")
         print("7. Ver mayor venta individual")
-        print("4. Salir")
+        print("8. Registrar nueva venta")
+        print("9. Salir")
         print("=======================================")
 
         opcion = input("Selecciona una opción: ")
@@ -186,6 +246,9 @@ def menu():
             mostrar_mayor_venta()
 
         elif opcion == "8":
+            registrar_venta()
+
+        elif opcion == "9":
             print("Programa finalizado.")
             break
 
