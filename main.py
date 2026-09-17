@@ -103,6 +103,26 @@ def mostrar_producto_mayor_ingreso():
     print("================================================")
 
 
+
+def mostrar_cliente_mayor_ingreso():
+    consulta = """
+    SELECT
+        cliente,
+        SUM(cantidad * precio) AS ingresos
+    FROM ventas
+    GROUP BY cliente
+    ORDER BY ingresos DESC
+    LIMIT 1
+    """
+
+    resultado = pd.read_sql_query(consulta, conexion)
+
+    print("========== CLIENTE CON MAYOR INGRESO ==========")
+    print(f"Cliente: {resultado.iloc[0]['cliente']}")
+    print(f"Ingresos: ${resultado.iloc[0]['ingresos']:.2f}")
+    print("===============================================")
+
+
 def menu():
     while True:
         print()
@@ -112,6 +132,7 @@ def menu():
         print("3. Ver análisis por cliente")
         print("4. Ver análisis por categoría")
         print("5. Ver producto con mayor ingreso")
+        print("6. Ver cliente con mayor ingreso")
         print("4. Salir")
         print("=======================================")
 
@@ -133,6 +154,9 @@ def menu():
             mostrar_producto_mayor_ingreso()
 
         elif opcion == "6":
+            mostrar_cliente_mayor_ingreso()
+
+        elif opcion == "7":
             print("Programa finalizado.")
             break
 
