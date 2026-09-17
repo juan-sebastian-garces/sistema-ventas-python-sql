@@ -123,6 +123,31 @@ def mostrar_cliente_mayor_ingreso():
     print("===============================================")
 
 
+
+def mostrar_mayor_venta():
+    consulta = """
+    SELECT
+        cliente,
+        producto,
+        cantidad,
+        precio,
+        cantidad * precio AS total_venta
+    FROM ventas
+    ORDER BY total_venta DESC
+    LIMIT 1
+    """
+
+    resultado = pd.read_sql_query(consulta, conexion)
+
+    print("========== MAYOR VENTA INDIVIDUAL ==========")
+    print(f"Cliente: {resultado.iloc[0]['cliente']}")
+    print(f"Producto: {resultado.iloc[0]['producto']}")
+    print(f"Cantidad: {int(resultado.iloc[0]['cantidad'])}")
+    print(f"Precio unitario: ${resultado.iloc[0]['precio']:.2f}")
+    print(f"Total de la venta: ${resultado.iloc[0]['total_venta']:.2f}")
+    print("============================================")
+
+
 def menu():
     while True:
         print()
@@ -133,6 +158,7 @@ def menu():
         print("4. Ver análisis por categoría")
         print("5. Ver producto con mayor ingreso")
         print("6. Ver cliente con mayor ingreso")
+        print("7. Ver mayor venta individual")
         print("4. Salir")
         print("=======================================")
 
@@ -157,6 +183,9 @@ def menu():
             mostrar_cliente_mayor_ingreso()
 
         elif opcion == "7":
+            mostrar_mayor_venta()
+
+        elif opcion == "8":
             print("Programa finalizado.")
             break
 
